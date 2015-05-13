@@ -1,5 +1,5 @@
-int merge(void *data, int esize, int l, int j, int r,
-          int (*compare)(const void *key1, const void *key2))
+static int merge(void *data, int esize, int l, int j, int r,
+                 int (*compare)(const void *key1, const void *key2))
 {
     int ip, jp, mp;
     char *m;

@@ -21,6 +21,5 @@ int bubsort(void *data, int size, int esize,
     }
 
     free(temp);
-
     return 0;
 }
