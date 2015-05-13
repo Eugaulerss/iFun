@@ -8,7 +8,7 @@ static int init_compare2(const void *key1, const void *key2)
     return strcmp(*(char **)key1, *(char **)key2);
 }
 
-int partition(void *data, int l, int r, int esize,
+int partition(void *data, int esize, int l, int r,
               int (*compare)(const void *key1, const void *key2))
 {
     int i, j, k, size;
@@ -54,7 +54,7 @@ int partition(void *data, int l, int r, int esize,
         while(compare((char *)data + i * esize, (char *)data + k * esize) <= 0 && i < j)
             i++;
 
-        if (i == j) {
+        if (i >= j) {
             break;
         }
 
@@ -70,26 +70,50 @@ int partition(void *data, int l, int r, int esize,
     }
 
     free(temp);
-
-    return i;
+    return j;
 }
 
-int qsort(void *data, int l, int r, int esize,
+int qsort(void *data, int esize, int l, int r,
           int (*compare)(const void *key1, const void *key2))
 {
     int m;
 
-    if ((m = partition(data, l, r, esize, compare)) == -1) {
+    if (l >= r) {
+        return 0;
+    }
+
+    if ((m = partition(data, esize, l, r, compare)) < 0) {
         return -1;
     }
 
-    if ((qsort(data, l, m - 1, esize, compare)) == -1) {
+    if ((qsort(data, esize, l, m - 1, compare)) < 0) {
         return -1;
     }
 
-    if ((qsort(data, m + 1, r, esize, compare)) == -1) {
+    if ((qsort(data, esize, m + 1, r, compare)) < 0) {
         return -1;
     }
 
     return 0;
 }
+
+#if 0
+{
+    int m;
+
+    while (l < r) {
+
+        if ((m = partition(data, esize, l, r, compare)) < 0) {
+            return -1;
+        }
+
+        if (qsort(data, esize, l, m, compare) < 0) {
+            return -1;
+        }
+
+        l = m + 1;
+    }
+
+    return 0;
+}
+#endif
