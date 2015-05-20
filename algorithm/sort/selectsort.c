@@ -1,32 +1,31 @@
 int selectsort(void *data, int size, int esize,
                int (*compare)(const void *key1, const void *key2))
 {
-    int i, j, k;
-    char *least;
+    int     i, j, k;
+    char   *temp;
 
-    if ((least = malloc(esize)) == NULL) {
+    if ((temp = malloc(esize)) == NULL) {
         return -1;
     }
 
     for (i = 0; i < size - 1; i++) {
 
         k = i;
-        memcpy(least, (char *)data + i * esize, esize);
 
         for (j = i + 1; j < size; j++) {
 
-            if (compare(least, (char *)data + j * esize) > 0) {
+            if (compare((char *)data + i * esize, (char *)data + j * esize) > 0) {
                 k = j;
-                memcpy(least, (char *)data + j * esize, esize);
             }
         }
 
         if (k != i) {
-            memcpy((char *)data + esize * k, (char *)data + esize * i, esize);
-            memcpy((char *)data + i * esize, least, esize);
+            memcpy(temp, (char *)data + i * esize, esize);
+            memcpy((char *)data + esize * i, (char *)data + esize * k, esize);
+            memcpy((char *)data + k * esize, temp, esize);
         }
     }
 
-    free(least);
+    free(temp);
     return 0;
 }
