@@ -11,8 +11,8 @@ static int init_compare2(const void *key1, const void *key2)
 int partition(void *data, int esize, int l, int r,
               int (*compare)(const void *key1, const void *key2))
 {
-    int i, j, k, size;
-    char *temp;
+    int     i, j, k, size;
+    char   *temp;
 
     if ((temp = malloc(esize)) == NULL) {
         return -1;
