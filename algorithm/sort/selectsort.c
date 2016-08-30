@@ -14,7 +14,7 @@ int selectsort(void *data, int size, int esize,
 
         for (j = i + 1; j < size; j++) {
 
-            if (compare((char *)data + i * esize, (char *)data + j * esize) > 0) {
+            if (compare((char *)data + k * esize, (char *)data + j * esize) > 0) {
                 k = j;
             }
         }
